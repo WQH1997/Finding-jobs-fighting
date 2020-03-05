@@ -1,0 +1,38 @@
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the "../input/" directory.
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+        
+import pandas as pd
+patient = pd.read_csv("../input/coronavirusdataset/patient.csv")
+route = pd.read_csv("../input/coronavirusdataset/route.csv")
+time = pd.read_csv("../input/coronavirusdataset/time.csv")
+
+patient.head()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+death_num=len(patient[pd.notnull(patient['deceased_date'])])
+death_num
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+death_num=patient['deceased_date'].notnull().value_counts()[1]
+death_num
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+death_num=patient.loc[patient.deceased_date.notnull()]
+len(death_num)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+date_col=patient.loc[:,['confirmed_date','released_date','deceased_date']]
+for col in date_col:
+    date_col[col]=pd.to_datetime(date_col[col])
+date_col['hospital_time']=date_col['released_date']-date_col['confirmed_date']
+#death_cases=date_col.loc[date_col.deceased_date.notnull()]
+#death_cases['confirm_to_death_time']=death_cases['deceased_date']-death_cases['confirmed_date']
+date_col['confirm_to_death_time']=date_col['deceased_date']-date_col['confirmed_date']
+date_col.loc[date_col['deceased_date'].notnull()]
+#date_col
+
