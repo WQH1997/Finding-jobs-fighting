@@ -1,0 +1,79 @@
+1.# DataFrame 输出对齐 #########################
+### pd.set_option('display.max_columns',20) ###
+### https://blog.csdn.net/weixin_43553694/article/details/92798367?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
+
+2.# .iloc[0:3,:] # first 3 rows
+### .loc[0:3,:]  # first 4 rows
+
+3.# numpy.noarray 中每个元素取整：A = A.astype(int)
+### multi_index 取值（数组形式）：A.values[0:5]
+
+4.# val_mae = mean_absolute_error(val_y,val_predictions)
+### val_mae = mean_absolute_error(val_y.values,val_predictions.astype(int))
+### 结果一致
+
+
+5.################# template ############################################
+import pandas as pd
+
+################## Load data ############################################
+melbourne_file_path = '../input/melbourne-housing-snapshot/melb_data.csv'
+melbourne_data = pd.read_csv(melbourne_file_path) 
+
+################ Data Cleaning ##########################################
+#Filter rows with missing price values
+filtered_melbourne_data = melbourne_data.dropna(axis=0)
+
+################ Choose Target & Features###############################
+### Choose Prediction Traget ###
+y = filtered_melbourne_data.Price
+
+#### Choose feature X Table/Columns from DataFrame ###
+#1# melbourne_features = ['Rooms', 'Bathroom', 'Landsize', 'Lattitude', 'Longtitude']
+### X = melbourne_data[melbourne_features]
+#2# melbourne_features = ['Rooms', 'Bathroom', 'Landsize', 'Lattitude', 'Longtitude']
+### X = melbourne_data.loc[:,melbourne_features]
+
+################## Split Data Set ##########################################
+from sklearn.model_selection import train_test_split
+### Split is based on a random number generator. 
+### Giving a numeric value to the random_state argument guarantees we get the same split every time we run this script.
+### random_state 相当于随机数种子random.seed();设置相同的 random seed（eg:123），它们取的随机数就完全相同"https://www.jianshu.com/p/4deb2cb2502f"
+### random_state = 0 这里是为了保证程序每次运行都分割一样的训练集和测试集。否则，同样的算法模型在不同的训练集和测试集上的效果不一样
+
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state = 0)
+
+################### Specify/Define the Model ###############################
+from sklearn.tree import DecisionTreeRegressor
+###specify the model; For model reproducibility, set a numeric value for random_state when specifying the model
+iowa_model = DecisionTreeRegressor(random_state=0) 
+#Many machine learning models allow some randomness in model training. 
+#Specifying a number for random_state ensures you get the same results in each run.
+
+#################### Fit the model #########################################
+iowa_model.fit(X,y)  # X=feature table/columns; y=prediction columns
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Fit model
+melbourne_model.fit(train_X, train_y)
+
+#################### Prediction #############################################
+predicted_home_prices = melbourne_model.predict(X)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# get predicted prices on validation data
+val_predictions = melbourne_model.predict(val_X)
+
+############# Evaluate the model; Calculate the error #######################
+from sklearn.metrics import mean_absolute_error
+print(mean_absolute_error(y, predicted_home_prices))
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print(mean_absolute_error(val_y, val_predictions))
+
+######## compare MAE with differing values of max_leaf_nodes ##########
+for max_leaf_nodes in [5, 50, 500, 5000]:
+    my_mae = get_mae(max_leaf_nodes, train_X, val_X, train_y, val_y) # defined function
+    print("Max leaf nodes: %d  \t\t Mean Absolute Error:  %d" %(max_leaf_nodes, my_mae))
+***格式化打印
+print("Validation MAE: {:,.0f}".format(val_mae)) # 保留整数
+
+
+ 
