@@ -1,0 +1,59 @@
+########### Loop finding Minimum_error corresponding the 'max_leaf_nodes' list ###########
+
+##### My Solution ####################################################
+candidate_max_leaf_nodes = [5, 25, 50, 100, 250, 500]
+candidate_mae=[]
+for max_leaf_nodes in candidate_max_leaf_nodes:
+    mae=get_mae(max_leaf_nodes,train_X, val_X, train_y, val_y)
+    candidate_mae.append(mae.astype(int))
+    print("candidate_max_leaf_nodes:%d \t mean absolute error:%d"%(max_leaf_nodes,mae))
+#print(candidate_max_leaf_nodes)
+#print(candidate_mae)
+    
+# Store the best value of max_leaf_nodes (it will be either 5, 25, 50, 100, 250 or 500)
+import pandas as pd
+nodes_mae_table=pd.DataFrame({'leaf_node':candidate_max_leaf_nodes,'mae':candidate_mae})
+
+index=nodes_mae_table.loc[nodes_mae_table.mae==min(candidate_mae)].index
+best_tree_size = int(nodes_mae_table.loc[index,'leaf_node'])
+print(best_tree_size)
+######################################################################
+
+##### Referenced Solution ############################################
+scores = {leaf_size: get_mae(leaf_size, train_X, val_X, train_y, val_y) for leaf_size in candidate_max_leaf_nodes}
+best_tree_size = min(scores, key=scores.get)
+
+
+####################################################################################
+list中找最值索引：c.index(min(c))
+dict中最值对应的key: dict = {'key1': 1, 'key2': 2, 'key3': 3, 'key4': 4}
+                    min(dict, key=dict.get)
+help(dict)--------> get(self, key, default=None, /)
+                  # Return the value for key if key is in the dictionary, else default.
+####有关字典的查操作##################################################################
+dict.has_key(k)
+如果键在字典dict里返回true，否则返回false
+
+查看所有键、值、（键，值）对：dict.keys()、dict.values()、dict.items()；返回值的类型为list
+遍历：
+for d,x in dict.items():
+    print "key:"+d+",value:"+x
+
+for k in dict.keys():
+    print "key:"+k+",value:"+dict[k]
+
+排序：
+# 按照key进行排序 
+print(sorted(dict.items(), key=lambda d: d[0]) )
+# 或
+sorted(dict.items(), lambda x, y: cmp(x[0], y[0]))
+# 或反序
+sorted(dict.items(), lambda x, y: cmp(x[0], y[0]), reverse=True) 
+
+# 按照value进行排序 
+print(sorted(dict.items(), key=lambda d: d[1])) 
+# 或
+sorted(dict.items(), lambda x, y: cmp(x[1], y[1]))
+# 或反序
+sorted(dict.items(), lambda x, y: cmp(x[1], y[1]), reverse=True) 
+
