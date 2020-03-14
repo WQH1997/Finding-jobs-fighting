@@ -1,0 +1,50 @@
+############## One-hot Coding ##################################(less than 15 values)
+a column has text ---> its dtype is 'object'
+      |
+cannot be plugged directly into most models
+      |
+pd.get_dummies() ---> to one-hot coding the the 'object'
+# one_hot_encoded_training_predictors = pd.get_dummies(train_predictors)
+
+参照组：
+numeric predictor ---> drop categorical
+# predictors_without_categoricals = train_predictors.select_dtypes(exclude=['object'])
+
+对比两组的mae,或取平均值
+
+########### 多个文件时，dataset列对齐 ##############################################
+Scikit-learn： sensitive to column order
+      |
+Apply align command
+# final_1, final_2 = onehot_1.align(onehot_2, join='left',axis=1)
+
+########## more sophisticated work with cateogircal data ##########################
+Pipeline: 
+    Scikit_learn offer a class for one-hot coding, which can be added to a pipeline
+    However, cannot process 'text','object' values.
+    
+For text:
+    'keras', 'tensorflow' offer one-hot coding function.
+    
+For catogorical with many values:
+    'Hashing trick'(in Scikit-learn's FeatureHasher) ---> to store high-dimensional data
+    
+######## encoding template #######################################################
+### using OrdinalEncoder ###
+1. 建模
+   enc = preprocessing.OrdinalEncoder()
+2. 准备feature dataset
+   X = [['male', 'from US', 'uses Safari'], ['female', 'from Europe', 'uses Firefox']]
+3. fit模型和数据
+   enc.fit(X)
+4. 用训练好的模型转换新数据
+   enc.transform([['female', 'from US', 'uses Safari']])
+   >>> array([[0., 1., 1.]])
+   
+   eg:[[a,b,c],[d,e,f],[g,h,i]]
+      当输入[a,d,g] ---> 编码为[0.,0.,0.,]
+      当输入[a,d,g],[b,e,i] ---> 编码为[0.,0.,0.,1.,1.,2.]
+   
+However, integer representation cannot be used directly with all Scikit-learn estimitor
+         because these Scikit-learn estimitor expect continuous input.
+         Consequence: may interpret the input categorical as orderd (i.e. Use_A, use_B, use_C don't have inner order connection) 
