@@ -75,5 +75,14 @@ for max_leaf_nodes in [5, 50, 500, 5000]:
 ***格式化打印
 print("Validation MAE: {:,.0f}".format(val_mae)) # 保留整数
 
+####################### 随机森林 ##############################################
+scikit-learn中，RF的分类类：RandomForestClassifier
+                回归类：RandomForestRegressor
+框架参数：1) n_estimators: 最大的弱学习器的个数。过小underfiting;过大overfiting.通常默认100
+         2) oob_score :是否采用袋外样本来评估模型的好坏。默认False。个人推荐设置为True，因为袋外分数反应了一个模型拟合后的泛化能力。
+         3) criterion: CART树做划分时对特征的评价标准。分类模型和回归模型的损失函数是不一样的。
+            分类RF对应的CART分类树默认是基尼系数gini,另一个可选择的标准是信息增益。
+            回归RF对应的CART回归树默认是均方差mse，另一个可以选择的标准是绝对值差mae。一般来说选择默认的标准。
+"https://www.cnblogs.com/pinard/p/6160412.html"
 
  
