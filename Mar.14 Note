@@ -1,0 +1,53 @@
+########### DataFrame 缺失值处理 ##########################################
+.dropna()
+参数：
+    axis:
+    how: 与axis配合使用。how=‘any’ :只要有缺失值出现，就删除该行或列；how=‘all’: 所有的值都缺失，才删除行或列
+    thresh： axis中至少有thresh个非缺失值，否则删除。比如 axis=0，thresh=10：如果该行中非缺失值的数量少于10，删除该行
+    subset: list 在哪些列中查看是否有缺失值
+    inplace: 是否在原数据上操作。inplace=True,返回None; inplace=False,返回新的copy，去掉了缺失值
+    
+########### categorical variable preprocessing #########################
+eg: input ["Honda", "Toyota", "Ford"] ---> cannot be plugged in most machine learning models directly.
+
+1) Drop Categorical Variables
+   drop_X_train = X_train.select_dtypes(exclude=['object'])
+2) Label Encoding to different integer
+***has ranking to the categories; but bot all categorical variable has ordered meaning
+    from sklearn.preprocessing import LabelEncoder
+    # Make copy to avoid changing original data 
+    label_X_train = X_train.copy()
+    label_X_valid = X_valid.copy()
+    
+    # Apply label encoder to each column with categorical data
+    label_encoder = LabelEncoder()
+    for col in object_cols:
+      label_X_train[col] = label_encoder.fit_transform(X_train[col])
+      label_X_valid[col] = label_encoder.transform(X_valid[col])
+
+3) One-Hot Encoding
+  do not assume the order of the categories; good for categorical data without clear ordering in.
+  from sklearn.preprocessing import OneHotEncoder
+
+###########################################################################
+# "Cardinality" means the number of unique values in a column; Select categorical columns with relatively low cardinality (convenient but arbitrary)
+low_cardinality_cols = [cname for cname in X_train_full.columns if X_train_full[cname].nunique() < 10 and 
+                        X_train_full[cname].dtype == "object"]
+                       # 返回这一列里面种类值少于10个，且是categorical变量的列
+
+# Select numerical columns
+numerical_cols = [cname for cname in X_train_full.columns if X_train_full[cname].dtype in ['int64', 'float64']]
+
+# Keep selected columns only
+my_cols = low_cardinality_cols + numerical_cols
+X_train = X_train_full[my_cols].copy()
+X_valid = X_valid_full[my_cols].copy()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+添加两个dataframe方法2：
+  X_train = pd.concat([cols_1, cols_2], axis=1)
+
+### Get list of categorical variables ###
+s = (X_train.dtype == 'object')
+object_col = list(s[s].index)
+eg: output = ['Type', 'Method', 'Regionname']
+###########################################################################
