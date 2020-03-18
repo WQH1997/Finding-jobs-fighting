@@ -1,0 +1,96 @@
+#######倒序排列########################################################
+num=123450
+arr=str(num) ---> 123450
+print(arr[::-1]) ---> 054321
+print(int(arr[::-1])) ---> 54321
+
+arr.reverse()
+print(arr) ---> ['0', '5', '4', '3', '2', '1']
+#reverse()无返回值，但会对列表的元素进行反向排序 print(arr.reverse())时返回None
+
+x=123450
+a=str(x) ---> 123450
+rev_arr=[]
+for i in reversed(a):
+  rev_arr.append(i)
+print(rev_arr) ---> ['0', '5', '4', '3', '2', '1']
+print(int(''.join(rev_arr))) ---> 54321
+
+##################反转整数#################################################
+class Solution:
+    def reverse(self, x):
+        if x>=0:
+            rev=int(str(x)[::-1])
+            return rev if rev<=(2 ** 31 - 1) else 0
+        elif x<0:
+            rev=-1*int(str(-1*x)[::-1])
+            return rev if rev>=(-1 * 2 ** 31) else 0
+            
+#############回文数列（不转换为字符串）######################################
+class Solution:
+    def isPalindrome(self, x):
+        if x>0:
+            temp=[]
+            while x>0:
+                temp.append(x%10)
+                x=x//10
+            return temp[::-1]==temp
+        elif x==0:
+            return True
+        else:
+            return False
+转换为字符串：str(x)[::-1]==str(x)
+
+##################字典翻译+替换#############################################
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        translation={
+            'I':1,
+            'V':5,
+            'X':10,
+            'L':50,
+            'C':100,
+            'D':500,
+            'M':1000
+        }
+        s=s.replace('IV','IIII').replace('IX','VIIII')
+        s=s.replace('XL','XXXX').replace('XC','LXXXX')
+        s=s.replace('CD','CCCC').replace('CM','DCCCC')
+        num=0
+        for char in s:
+            num+=translation[char]
+        return num
+        
+########### 寻找最长前缀 ################################################
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        indiv,char=zip(*strs),''
+        for i in indiv:
+            if len(set(i))==1:
+                char+=i[0]
+            else:
+                break
+        return char
+~~~~~~~~~ zip() and zip(*) ~~~~~~~~~~~~~~~~~
+压缩：
+  def zipfile(a1,a2,a3):
+    zip1 = zip(a1, a2, a3) #压缩为元组
+    for i in zip1:
+      print(i)
+  zipfile([1,2,3],[4,5,6],[7,8,9,6])
+  >>> (1, 4, 7)
+      (2, 5, 8)
+      (3, 6, 9)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+解压缩：
+  def unzip(strs):
+    sz= zip(*strs)
+    for i in sz:
+        print(i)
+  unzip(["flower","flow","flight"])
+  >>> ('f', 'f', 'f')
+      ('l', 'l', 'l')
+      ('o', 'o', 'i')
+      ('w', 'w', 'g')
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
