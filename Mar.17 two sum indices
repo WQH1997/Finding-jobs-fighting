@@ -1,0 +1,10 @@
+class Solution:
+    def twoSum(self, nums, target):
+        seen=dict()
+        pos=0
+        while pos<len(nums):
+            if (target-nums[pos]) not in seen:
+                seen[nums[pos]]=pos
+                pos+=1
+            else:
+                return [seen[target-nums[pos]],pos]
