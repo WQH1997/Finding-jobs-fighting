@@ -46,3 +46,19 @@ stack.put('c')
 print(stack.get()) 
 print(stack.get()) 
 print(stack.get()) 
+
+################## Stack Practice ###################################################################
+class Solution:
+    def isValid(self, s: str) -> bool:
+        left=['(','[','{']
+        right=[')',']','}']
+        stack=[]
+        for char in s:
+            if char in left:
+                stack.append(char)
+            else:
+                if len(stack)>0 and stack[-1]==left[right.index(char)]:
+                    stack.pop()
+                else:
+                    return False
+        return len(stack)==0
