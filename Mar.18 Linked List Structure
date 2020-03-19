@@ -1,0 +1,82 @@
+#### Python链表结构 ################################################
+使用“引用+类”实现链表，SinCycLinkedList Class-->单向循环链表；Node Class --> 链表中的一个节点
+
+class Node:
+    def __init__(self,num):
+        self.__data = num
+        self.__next = None
+
+    def getData(self):
+        return self.__data
+
+    def getNext(self):
+        return self.__next
+
+    def setData(self, newdata):
+        self.__data = newdata
+
+    def setNext(self,newnext):
+        self.__next = newnext
+
+class SinCycLinkedlist:
+    '''
+    https://www.cnblogs.com/russellluo/p/3285045.html
+    '''
+    def __init__(self):
+        self.head = Node(None)
+        self.head.setNext(self.head)  # 初始化链表head头部指向自己
+
+    def add(self,item):                # 插入节点位置：head后一个,原本第一的node的前一个
+        new_node = Node(item)          # 新节点
+        new_node.setNext(self.head.getNext()) # 把原本的第一个节点设置为新节点的后一个
+        self.head.setNext(new_node)    # 把新节点设置到head的后面
+
+    def remove(self,item):    # 在不为空的链表中,找到item对应的node,把current_node的后一个设置为current_node前一个的后一个
+        prev = self.head
+        while prev.getNext() != self.head:
+            cur = prev.getNext()
+            if cur.getData() == item:
+                prev.setNext(cur.getNext())
+            prev = prev.getNext()  #######
+
+    def search(self,item):
+        cur = self.head.getNext()
+        while cur != self.head:
+            if cur.getData() == item:
+                return True
+            cur = cur.getNext()
+        return False
+
+    def empty(self):
+        return self.head.getNext() == self.head
+
+    def size(self):
+        cur = self.head.getNext()
+        counter = 0
+        while cur != self.head:
+            counter+=1
+            cur = cur.getNext()
+        return counter
+
+if __name__ == '__main__':
+    link = SinCycLinkedlist()
+    print('link.empty()=%s,link.size()=%s'%(link.empty(),link.size()))
+
+    link.add(14)
+    link.add(12)
+    print('link.empty=%s, link.size()=%s'%(link.empty(),link.size()))
+
+    print('14 %s in the link list'%('' if link.search(14) else 'not'))
+    print('17 %s in the link list'%('' if link.search(17) else 'not'))
+
+    link.remove(12)
+    print('link.empty()=%s, link.size()=%s'%(link.empty(),link.size()))
+    link.remove(14)
+    print('link.empty()=%s, link.size()=%s' % (link.empty(), link.size()))
+    
+>>> link.empty()=True,link.size()=0
+    link.empty=False, link.size()=2
+    14  in the link list
+    17 not in the link list
+    link.empty()=False, link.size()=1
+    link.empty()=True, link.size()=0
