@@ -1,0 +1,48 @@
+######### Three ways ############################################
+(1). list
+(2). collections.deque
+(3). queue.LifoQueue
+
+####### list---LIFO order #######################################
+  append():add elements to the top of stack
+  pop(): removes the element (the same end)
+stack = [] 
+stack.append('a') 
+stack.append('b') 
+stack.append('c') 
+print(stack.pop()) 
+print(stack.pop()) 
+print(stack.pop())
+
+###### collections.deque ########################################
+from collections import deque 
+stack = deque() 
+stack.append('a') 
+stack.append('b') 
+stack.append('c')
+print(stack.pop()) 
+print(stack.pop()) 
+print(stack.pop()) 
+when we need quicker append and pop operations from both the ends of the container, deque ie better than lis
+Because deque provides an O(1) time complexity for append/pop operations; list provides O(n) time complexity. 
+
+####### queue.LifoQueue #############################
+from queue import LifoQueue
+put(): insert data into Queue
+get(): takes data out from the Queue
+        maxsize – Number of items allowed in the queue.
+        empty() – Return True if the queue is empty, False otherwise.
+        full() – Return True if there are maxsize items in the queue. If the queue was initialized with maxsize=0 (the default), then full() never returns True.
+        get() – Remove and return an item from the queue. If queue is empty, wait until an item is available.
+        get_nowait() – Return an item if one is immediately available, else raise QueueEmpty.
+        put(item) – Put an item into the queue. If the queue is full, wait until a free slot is available before adding the item.
+        put_nowait(item) – Put an item into the queue without blocking.
+        qsize() – Return the number of items in the queue. If no free slot is immediately available, raise QueueFull.
+from queue import LifoQueue 
+stack = LifoQueue(maxsize = 3) 
+stack.put('a') 
+stack.put('b') 
+stack.put('c')  
+print(stack.get()) 
+print(stack.get()) 
+print(stack.get()) 
