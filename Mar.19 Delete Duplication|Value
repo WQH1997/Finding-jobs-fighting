@@ -1,0 +1,53 @@
+####### Delete Duplication ##################################
+def removeDuplicates(nums):
+    count = 1
+    idx = 0
+    new=[nums[0]]
+    while idx < len(nums) - 1:
+
+        if nums[idx] == nums[idx + 1]:
+            idx += 1
+        else:
+            count += 1
+            new.append(nums[idx+1])
+            idx += 1
+    print(count)
+    print(new)
+removeDuplicates([1,6,6,7,8])
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+不添加新数组，直接改变nums ---> modifying the input array in-place
+class Solution:
+    def removeDuplicates(self, nums):
+        nums[:]=sorted(set(nums))
+        return len(nums)
+
+######## Delete the Value ##################################
+######## Two pointer method ##################################
+元素顺序无关: start,end=end,start
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        start, end = 0, len(nums)-1
+        while start<=end:
+            if nums[start] == val:
+                nums[start],nums[end],end=nums[end],nums[start],end-1
+            else:
+                start+=1
+        return start 
+        
+###### String Segment Search ######################################
+ class Solution:
+    def strStr(self, haystack, needle):
+        for i in range(0,(len(haystack)-len(needle)+1)):
+            if haystack[i:i+len(needle)] == needle:
+                return i            
+        return -1
+        
+##### Search Insert Position ###############################
+(1).Linear Search
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        for i,num in enumerate(nums):
+            if num>=target:
+                return i
+        return len(nums)
+(2).Binary Search
