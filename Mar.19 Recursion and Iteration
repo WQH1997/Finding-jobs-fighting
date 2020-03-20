@@ -1,0 +1,57 @@
+################ Recursion #########################################
+递归就是子程序（或函数）直接调用自己或通过一系列调用语句间接调用自己
+两个基本要素：
+  （1） 边界条件：确定递归到何时终止，也称为递归出口。
+  （2） 递归模式：大问题是如何分解为小问题的，也称为递归体。
+Instance 1：
+  求一个整数n的阶乘
+  def factorial(n) :
+  if n == 1 :
+    return 1         #递归结束
+  return n * factorial(n - 1)  #问题规模减1，递归调用
+  
+  Instance 2：
+    汉诺塔的递归算法
+    def Hanoi(n, A, B, C) :
+      if (n == 1) :
+        move(A, c)   #表示只有一个碟子时，直接从A塔移动到C塔
+      else :
+        Hanoi(n - 1, A, C, B)  #将剩下的A塔上的n-1借助C塔移动到B塔
+        move(A, C)              #将A上最后一个直接移动到C塔上
+        Hanoi(n - 1, B, A, C)  #将B塔上的n-1个碟子借助A塔移动到C塔
+~~~~~~~~~~~ merge 2 sorted lineked list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+递归：
+class Solution:
+    def mergeTwoLists(self, a, b):
+        if a and b:
+            if a.val > b.val:
+                a, b = b, a
+            a.next = self.mergeTwoLists(a.next, b)
+        return a or b
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        cur = ListNode()
+        merged = cur
+        while l1 != None and l2 != None:
+            if l1.val <= l2.val:
+                cur.next = l1
+                l1 = l1.next
+            else:
+                cur.next = l2
+                l2 = l2.next
+            cur = cur.next
+        if l2 != None:
+            cur.next = l2
+        elif l1 != None:
+            cur.next = l1
+        return merged.next
+############# iteration ###########################################
+字符串，列表，元组可用于创建迭代器：
+iterator = iter(string/array/tuple)
+item1 = next(iterator)
+item2 = next(iterator)
+
+迭代器对象遍历：
+for i in iterator:
+  print(i, end=' ')
