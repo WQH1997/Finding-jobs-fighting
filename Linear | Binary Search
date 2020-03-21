@@ -1,0 +1,27 @@
+###### String Segment Search ######################################
+ class Solution:
+    def strStr(self, haystack, needle):
+        for i in range(0,(len(haystack)-len(needle)+1)):
+            if haystack[i:i+len(needle)] == needle:
+                return i            
+        return -1
+        
+##### Search Insert Position ###############################
+(1).Linear Search
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        for i,num in enumerate(nums):
+            if num>=target:
+                return i
+        return len(nums)
+(2).Binary Search
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        low, high = 0, len(nums)
+        while low < high:
+            mid = (low+high)//2
+            if target > nums[mid]:
+                low = mid+1
+            else:
+                high=mid
+        return low
