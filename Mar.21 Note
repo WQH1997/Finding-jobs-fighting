@@ -9,3 +9,32 @@ print (S.split('w'))
 ['this', 'is', 'string', 'example....wow!!!']
 ['th', 's is string example....wow!!!']
 ['this is string example....', 'o', '!!!']
+
+########## 返回最后一个单词长度（如果存在）############################
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        aim=s.rsplit(None,1)
+        return len(aim[-1]) if aim else 0   # for testcase: input=""
+        
+#####################################################################
+class Solution (1):
+    def plusOne(self, digits: List[int]) -> List[int]:
+        high=len(digits)-1
+        pointer=high
+        a=1
+        while pointer>=0:
+            a+=digits[pointer]*10**(high-pointer)
+            pointer=pointer-1
+        return [num for num in str(a)]
+
+class Solution (2):
+    def plusOne(self, digits: List[int]) -> List[int]:
+        digits=[str(i) for i in digits]
+        total=int(''.join(digits))+1
+        return [num for num in str(total)]
+        
+############### 进制转换 ##############################
+1. 任何进制转换为十进制 int(str,2/8/16)
+2. 十进制转换为2进制： bin(10) ---> '0b1010'---> bin(a)[2:]
+              8进制： oct(11) ---> '013' -----> oct(a)[1:]
+             16进制： hex(1033) -> '0x409' ---> hex(a)[2:]
