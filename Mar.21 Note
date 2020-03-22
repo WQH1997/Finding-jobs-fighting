@@ -1,0 +1,11 @@
+.split()  从前往后
+.rsplit() 从后往前
+
+S = "this is string example....wow!!!"
+print (S.split( ))
+print (S.split('i',1))
+print (S.split('w'))
+>>>
+['this', 'is', 'string', 'example....wow!!!']
+['th', 's is string example....wow!!!']
+['this is string example....', 'o', '!!!']
