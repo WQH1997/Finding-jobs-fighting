@@ -1,0 +1,61 @@
+############ 链表删除重复值##################################################
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        cur=head
+        while cur and cur.next:
+            if cur.val==cur.next.val:
+                cur.next=cur.next.next
+            else:
+                cur=cur.next
+        return head
+        
+############# 按大小插入第二个数组 ##########################################
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        while m>0 and n>0:
+            if nums1[m-1]>nums2[n-1]:
+                nums1[m+n-1]=nums1[m-1]
+                m=m-1
+            else:
+                nums1[m+n-1]=nums2[n-1]
+                n=n-1
+        nums1[:n]=nums2[:n]
+        return nums1
+###############################################################
+#         i,j=m-1,n-1
+#         while i>=0 and j>=0:
+#             k=m+n-1
+#             if nums1[i]>nums2[j]:
+#                 nums1[k]=nums1[i]
+#                 i-=1
+#             else:
+#                 nums1[k]=nums2[j]
+#                 j-=1
+#         nums1[:j+1]=nums2[:j+1]
+#         return nums1
+
+####### 股票最大收益 ##################################################
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        max_pro,min_buy=0,float('inf')
+        for price in prices:
+            min_buy=min(min_buy,price)
+            max_pro=max(max_pro,price-min_buy)
+        return max_pro
+~~~~~~~~~~~my solution~~~~~~~~~
+(time,memory)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices)>1:
+            profit=0
+            for buy in range(0,len(prices)-1):
+                for day in range(0,len(prices)-buy):
+                    a=prices[buy+day]-prices[buy]
+                    if a>profit:
+                        profit=a
+        else:
+            profit=0
+        return profit
