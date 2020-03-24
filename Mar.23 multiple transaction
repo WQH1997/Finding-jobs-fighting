@@ -1,0 +1,7 @@
+Python 3 中zip返回的试对象，如需显示要手动转换list()成列表
+当zip()中迭代对象长度不一致，返回与短的一样的长度
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return sum(b-a for a,b in zip(prices,prices[1:]) if b>a)
+        
