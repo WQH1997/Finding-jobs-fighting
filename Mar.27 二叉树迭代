@@ -1,0 +1,30 @@
+################ Same Tree #################################
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p or not q:
+            return p==q
+        if p.val!=q.val:
+            return False
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right,q.right)
+
+############### 对称树 ####################################
+class Solution:
+    def isSame(self, p, q):
+        if not p or not q:
+            return p == q
+        if p.val != q.val:
+            return False
+        return (self.isSame(p.left, q.right)
+                and self.isSame(p.right, q.left))
+
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return self.isSame(root.left, root.right)
+
+############ 最大深度 #####################################
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return max(self.maxDepth(root.left), self.maxDepth(root.right))+1
