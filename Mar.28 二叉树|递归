@@ -1,0 +1,77 @@
+####### 自底向上顺序遍历###################################################
+class Solution:
+    def helper(self,result,depth,node):
+        if not node:
+            return 
+        if len(result)<depth:
+            result.append([])
+        result[depth-1].append(node.val)
+        self.helper(result,depth+1,node.left)
+        self.helper(result,depth+1,node.right)            
+            
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        result=[]
+        depth=1
+        self.helper(result,depth,root)
+        result.reverse()
+        return result
+        
+###################排序数列-->二叉搜索树####################################
+class Solution:
+    def helper(self, nums, start, end):
+        if start>=end:
+            return None
+        mid=(start+end)//2
+        node=TreeNode(nums[mid])
+        node.left=self.helper(nums,start,mid)
+        node.right=self.helper(nums,mid+1,end)
+        return node
+
+        
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not nums:
+            return None
+        return self.helper(nums,0,len(nums))
+        
+########## 平衡二叉树 #######################################################
+class Solution:
+    def helper(self,root):
+        if not root:
+            return 0
+        left=self.helper(root.left)
+        right=self.helper(root.right)
+        if abs(left-right)>1 or left==-1 or right==-1:
+            return -1
+        return 1+max(left,right)
+        
+    def isBalanced(self, root: TreeNode) -> bool:
+        return self.helper(root)!=-1
+        
+################ 最小深度###################################################
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        if not (root.left or root.right):
+            return 1
+        
+        if not root.left:
+            return self.minDepth(root.right)+1
+        
+        if not root.right:
+            return self.minDepth(root.left)+1
+        
+        return min(self.minDepth(root.left),self.minDepth(root.right))+1
+        
+########## 路径之和 #####################################################
+class Solution:    
+    def hasPathSum(self, root, total):
+        if not root:
+            return False
+        total-=root.val
+        if total==0 and not root.left and not root.right:
+            return True
+        return self.hasPathSum(root.left,total) or self.hasPathSum(root.right,total)
