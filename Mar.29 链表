@@ -1,0 +1,91 @@
+########### 链表有循环 ###############################
+class Solution:
+    def hasCycle(self, head):
+        slow=head
+        fast=head
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+            if slow==fast:
+                return True
+        return False
+        
+########## 链表中间节点 ############################
+class Solution:
+    def middleNode(self, head):
+        if not head:
+            return None
+        slow=fast=head
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+        return slow
+        
+############# 两个链表交叉点 ########################
+class Solution:
+    def getIntersectionNode(self, headA, headB):
+        if not headA or not headB:
+            return None
+        listA,listB=headA,headB
+        while listA!=listB:
+            listA=listA.next if listA else headB
+            listB=listB.next if listB else headA
+        return listA
+        
+########## 移除链表种指定元素 #######################
+class Solution:
+    def removeElements(self, head: ListNode, value: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+        while prev.next:
+            if prev.next.val == value:
+                prev.next = prev.next.next
+            else:
+                prev = prev.next
+        return dummy.next
+        
+######### 反转链表 #################################
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        temp_prev=None
+        cur=head
+        while cur:
+            temp_later=cur.next
+            cur.next=temp_prev
+            temp_prev=cur
+            cur=temp_later
+        return temp_prev
+        
+######## 转换链表表示的二进制为十进制整数 #############
+class Solution:
+    def getDecimalValue(self, head):
+        nums=[]
+        if not head:
+            return 0
+        while head:
+            nums.append(str(head.val))
+            head=head.next
+        num=''.join(nums)
+        return int(num,2)
+        
+######### 删除节点 ###############################
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        node.val=node.next.val
+        node.next=node.next.next
+        
+######## 回文链表 ################################
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        if not head:
+            return True
+        stack=[]
+        while head:
+            stack.append(head.val)
+            head=head.next
+        return stack[::-1]==stack
