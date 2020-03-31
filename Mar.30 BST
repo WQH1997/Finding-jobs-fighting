@@ -1,0 +1,54 @@
+######### Binary Search Tree #####################
+left_subtree.val < root.val
+right_subtree.val > root.val
+给定一个值，如果大于root.val, 遍历root的所有右子树
+           如果小于root.val,遍历root的所有左子树
+           如果等于root.val,返回root的值
+           
+eg: BST搜索范围内的值并求和
+class Solution:
+    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        if not root:
+            return 0
+        if root.val>R:
+            return self.rangeSumBST(root.left,L,R)
+        if root.val<L:
+            return self.rangeSumBST(root.right,L,R)
+        return root.val+self.rangeSumBST(root.left,L,R)+self.rangeSumBST(root.right,L,R)
+
+######## 是否univalued二叉树 ########################
+class Solution:
+    def helper(self,root,value):
+        if not root:
+            return True
+        if root.val!=value:
+            return False
+        return self.helper(root.left,root.val) and self.helper(root.right,root.val)
+        
+    def isUnivalTree(self, root: TreeNode) -> bool:
+        return self.helper(root,root.val)
+        
+######## 合并两个树 ##################################
+class Solution:
+    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        if t1 and t2:
+            root=TreeNode(t1.val+t2.val)
+            root.left=self.mergeTrees(t1.left,t2.left)
+            root.right=self.mergeTrees(t1.right,t2.right)
+            return root
+        else:
+            return t1 or t2
+            
+################ Search in BST ########################
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return None
+        if root.val==val:
+            return root
+        if root.val>val:
+            return self.searchBST(root.left,val)
+        if root.val<val:
+            return self.searchBST(root.right,val)
+            
+######## DFS: Depth-First Search ############################
